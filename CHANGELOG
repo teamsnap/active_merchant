@@ -28,6 +28,8 @@
 * Sagepay: Add Verify [anellis]
 * Add "contactless" flag to credit card model [davidseal]
 * Stripe: Add "contactless" flag support to gateway [davidseal]
+* Add encrypted_pin data to credit card model [ryanbalsdon]
+* Stripe: Add encrypted_pin support to gateway [ryanbalsdon]
 
 == Version 1.49.0 (May 1, 2015)
 

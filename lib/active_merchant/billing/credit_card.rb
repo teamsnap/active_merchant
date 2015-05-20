@@ -163,6 +163,16 @@ module ActiveMerchant #:nodoc:
       # @return [true, false]
       attr_accessor :contactless
 
+      # Returns the ciphertext of the card's encrypted PIN.
+      #
+      # @return [String]
+      attr_accessor :encrypted_pin
+
+      # Returns the Key Serial Number (KSN) of the card's encrypted PIN.
+      #
+      # @return [String]
+      attr_accessor :encrypted_pin_key_id
+
       def type
         ActiveMerchant.deprecated "CreditCard#type is deprecated and will be removed from a future release of ActiveMerchant. Please use CreditCard#brand instead."
         brand

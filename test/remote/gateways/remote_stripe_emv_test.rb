@@ -78,6 +78,22 @@ class RemoteStripeEmvTest < Test::Unit::TestCase
     assert capture.emv_authorization, "Capture should contain emv_authorization containing the EMV TC"
   end
 
+  def test_authorization_and_capture_of_online_pin_with_emv_credit_card_in_us
+    @gateway = StripeGateway.new(fixtures(:stripe_emv_us))
+    emv_credit_card = @emv_credit_cards[:us]
+    emv_credit_card.encrypted_pin = "8b68af72199529b8"
+    emv_credit_card.encrypted_pin_key_id = "ffff0102628d12000001"
+
+    assert authorization = @gateway.authorize(@amount, emv_credit_card, @options)
+    assert_success authorization
+    assert authorization.emv_authorization, "Authorization should contain emv_authorization containing the EMV ARPC"
+    refute authorization.params["captured"]
+
+    assert capture = @gateway.capture(@amount, authorization.authorization)
+    assert_success capture
+    assert capture.emv_authorization, "Capture should contain emv_authorization containing the EMV TC"
+  end
+
   def test_authorization_and_capture_with_emv_contactless_credit_card
     @gateway = StripeGateway.new(fixtures(:stripe_emv_us))
     emv_credit_card = @emv_credit_cards[:contactless]
