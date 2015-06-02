@@ -65,6 +65,17 @@ module ActiveMerchant #:nodoc:
     # below and the rest of active_merchant's documentation, as well as Trust Commerce's user and developer documentation.
 
     class TrustCommerceGateway < Gateway
+      class ForceTSLConnection < ActiveMerchant::Connection
+        def configure_ssl(http)
+          super(http)
+          http.ssl_version = :TLSv1
+        end
+      end
+
+      def new_connection(endpoint)
+        ForceTSLConnection.new(endpoint)
+      end
+
       self.live_url = self.test_url = 'https://vault.trustcommerce.com/trans/'
 
       SUCCESS_TYPES = ["approved", "accepted"]
